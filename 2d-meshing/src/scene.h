@@ -19,13 +19,15 @@
 #include <CGAL/Delaunay_mesher_2.h>
 #include <CGAL/Delaunay_mesh_size_criteria_2.h>
 
+//header foruni:
 #include "cdt.h"
 
 #undef min
 #undef max
 
-// Courbes
-#include "courbes.h"
+
+//Maths
+#include <math.h>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
 
@@ -52,15 +54,12 @@ private:
 	CDT m_cdt;
 
 	Point m_mouse_pos;
-    //Delaunay refinement
-    double contrainte_taille;
 
 public:    
 	Scene()
 	{
 		m_cdt.add_box();
 		m_cdt.tag_faces_inside_outside();
-        contrainte_taille=100;
 	}
 
 	~Scene()
@@ -87,6 +86,7 @@ public:
 		{
 			m_cdt.read_pslg(qPrintable(filename));
 			m_cdt.tag_faces_inside_outside();
+            std::cout<<"File loaded"<<std::endl;
 		}
 	}
 
@@ -127,13 +127,26 @@ public:
          std::cout << "done" << std::endl;
 	}
 
+    // Delaunay refinement sous contrainte
+    void refine_angle_min(float angle_min)
+    {
+        std::cout << "Refine...Contrainte angle min="<<angle_min<<std::endl;
+
+        float b=pow(sin(angle_min*M_PI/180),2);
+        CGAL::refine_Delaunay_mesh_2(m_cdt,Criteria(b));
+        std::cout << "done" << std::endl;
+    }
 	// Delaunay refinement
 	void refine()
 	{
-         std::cout << "Refine...";
-         CGAL::refine_Delaunay_mesh_2(m_cdt,Criteria(0.125, 0.5));
-         std::cout << "done" << std::endl;
+        refine_angle_min(0);
 	}
+
+    //Accesseur du nombre de sommets
+    int get_number_of_vertices()
+    {
+        return m_cdt.number_of_vertices();
+    }
 
 };
 

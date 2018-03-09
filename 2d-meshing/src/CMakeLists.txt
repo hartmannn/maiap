@@ -19,7 +19,7 @@ add_definitions(-DBOOST_NO_CXX11_TEMPLATE_ALIASES)
 
 set( HDRS glviewer.h scene.h window.h  include/cdt.h courbes.h)
 
-set( SRCS glviewer.cpp main.cpp window.cpp)
+set( SRCS glviewer.cpp window.cpp main.cpp)
 
 
 if(WIN32)
@@ -40,8 +40,8 @@ if( CGAL_FOUND AND Qt5_FOUND AND OPENGL_FOUND )
     # UI files (Qt Designer files)
     qt5_wrap_ui( DT_UI_FILES refinement.ui)
 
-    # The executable itself.
-    add_executable( refinement ${SRCS} ${MOCS} ${DT_UI_FILES} )
+    ## The executable itself.
+    add_executable( refinement ${SRCS} main.cpp ${MOCS} ${DT_UI_FILES} )
     qt5_use_modules(refinement OpenGL)
 
     # Link with Qt libraries
@@ -52,6 +52,13 @@ if( CGAL_FOUND AND Qt5_FOUND AND OPENGL_FOUND )
 
     # Link with CGAL
     target_link_libraries( refinement ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})
+
+    ##The second executable
+    add_executable(delaunay_parametre_variable delaunay_parametre_variable.cpp courbes.cpp)
+    qt5_use_modules(delaunay_parametre_variable OpenGL)
+
+    # Link with CGAL
+    target_link_libraries( delaunay_parametre_variable ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})
 
 else()
   message(STATUS "NOTICE: This program requires CGAL and Qt5, and will not be compiled.")
