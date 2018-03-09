@@ -7,6 +7,9 @@ void write_csv(const std::string & file_title, const std::list<double> & x, cons
 
       std::list<double>::const_iterator x_it=x.begin();
       std::list<int>::const_iterator y_it=y.begin();
+
+      myfile<<"angle min,nb de sommets"<<std::endl;
+
       for(int i=0;i<x.size();i++)
       {
           myfile<<*x_it<<","<<*y_it<<std::endl;

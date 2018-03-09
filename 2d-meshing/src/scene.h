@@ -25,7 +25,6 @@
 #undef min
 #undef max
 
-
 //Maths
 #include <math.h>
 
@@ -142,7 +141,18 @@ public:
         refine_angle_min(0);
 	}
 
-    //Accesseur du nombre de sommets
+    void refine_variation_contrainte()
+    {
+        int nb_sommets=0;
+        const float pas_angle=0.5;
+        for(float angle_min=1;angle_min<=20;angle_min+=pas_angle)
+        {
+            refine_angle_min(angle_min);
+            nb_sommets=m_cdt.number_of_vertices();
+            std::cout<<nb_sommets<<std::endl;
+        }
+    }
+
     int get_number_of_vertices()
     {
         return m_cdt.number_of_vertices();

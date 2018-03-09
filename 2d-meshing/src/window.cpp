@@ -9,6 +9,9 @@
 
 #include <fstream>
 
+#include <QThread> //Pour le sleep
+#include "courbes.h" //Pour enregistrer la courbe
+
 MainWindow::MainWindow() : 
 QMainWindow(), Ui_MainWindow(), 
 maxNumRecentFiles(15), recentFileActs(15)
@@ -187,6 +190,36 @@ void MainWindow::on_actionGabriel_conforming_triggered()
   m_scene->gabriel_conforming();
 	QApplication::restoreOverrideCursor();
 	update();
+}
+
+// refinement sous contrainte variable
+void MainWindow::on_actionRefine_variation_contrainte_triggered()
+{
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    int nb_sommets=0;
+    const float pas_angle=0.5;
+
+    std::list<double> l_angles;
+    std::list<int> l_nbs_sommets;
+
+    for(float angle_min=1;angle_min<=20;angle_min+=pas_angle)
+    {
+        m_scene->refine_angle_min(angle_min);
+        nb_sommets=m_scene->get_number_of_vertices();
+
+        std::cout<<"Angle_min="<<angle_min<<",nombre de sommets="<<nb_sommets<<std::endl;
+
+        l_angles.push_back(angle_min);
+        l_nbs_sommets.push_back(nb_sommets);
+
+        update();
+        QThread::msleep(300);
+    }
+
+    write_csv("../courbe.csv",l_angles,l_nbs_sommets);
+
+    QApplication::restoreOverrideCursor();
 }
 
 

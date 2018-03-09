@@ -58,6 +58,7 @@ public slots:
 			void on_actionRefine_triggered();
 			void on_actionDelaunay_conforming_triggered();
 			void on_actionGabriel_conforming_triggered();
+            void on_actionRefine_variation_contrainte_triggered();
 
 signals:
 			void openRecentFile(QString filename);

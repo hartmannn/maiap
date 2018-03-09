@@ -58,6 +58,7 @@
     <addaction name="actionGabriel_conforming" />
     <addaction name="separator" />
     <addaction name="actionRefine" />
+    <addaction name="actionRefine_variation_contrainte" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuData" />
@@ -109,6 +110,11 @@
   <action name="actionRefine" >
    <property name="text" >
     <string>Refine</string>
+   </property>
+  </action>
+  <action name="actionRefine_variation_contrainte" >
+   <property name="text" >
+    <string>Refine_variation_contrainte</string>
    </property>
   </action>
   <action name="actionCircle" >
